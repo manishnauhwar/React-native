@@ -22,7 +22,10 @@ const Profile = () => {
   const handleAddPost = async () => {
     if (!newPost.title || !newPost.body) return;
     const addedPost = await toPost(newPost);
-    setPosts([addedPost, ...posts]);
+    setPosts((prevPosts) => {
+      const nextId = prevPosts.length > 0 ? prevPosts[prevPosts.length - 1].id + 1 : 1;
+      return [...prevPosts, { ...addedPost, id: nextId }];
+    });
     setNewPost({ title: '', body: '' });
     setModalVisible(false);
   };
